@@ -1,19 +1,30 @@
-name: Shell commands
-on: [push]
+name: Caching Primes
+
+on: push
 
 jobs:
-  run-shell-command:
+  build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
 
-    - run: mkdir -p path/to/artifact
-
-    - run: echo hello > path/to/artifact/world.txt
-
-    - uses: actions/upload-artifact@v3
+    - name: Restore cached Primes
+      id: cache-primes-restore
+      uses: actions/cache/restore@v3
       with:
-        name: my-artifact
-        path: path/to/artifact/world.txt
-        
-      
+        path: |
+          path/to/dependencies
+          some/other/dependencies
+        key: ${{ runner.os }}-primes
+    .
+    . //intermediate workflow steps
+    .
+    - name: Save Primes
+      id: cache-primes-save
+      uses: actions/cache/save@v3
+      with:
+        path: |
+          path/to/dependencies
+          some/other/dependencies
+        key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
