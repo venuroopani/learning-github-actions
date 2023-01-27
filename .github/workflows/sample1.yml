@@ -17,9 +17,6 @@ jobs:
           path/to/dependencies
           some/other/dependencies
         key: ${{ runner.os }}-primes
-    .
-    . //intermediate workflow steps
-    .
     - name: Save Primes
       id: cache-primes-save
       uses: actions/cache/save@v3
