@@ -4,18 +4,16 @@ on: [push]
 jobs:
   run-shell-command:
     runs-on: ubuntu-latest
-    steps: 
-      - name: echo a string
-        run: echo "Hello world"
-      - name: multiline script
-        run: |
-          node -v
-          npm -v
-      - name: python command
-        run: |
-          import platform
-          print
-          (platform.processor())
-        shell: python
+    steps:
+    - uses: actions/checkout@v3
+
+    - run: mkdir -p path/to/artifact
+
+    - run: echo hello > path/to/artifact/world.txt
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact
+        path: path/to/artifact/world.txt
         
       
